@@ -1,13 +1,12 @@
 from rest_framework.response import Response
 from rest_framework.viewsets import ModelViewSet
 from tasks.api.serializers import TasksSerializer
-from tasks.models import Task
-
+from tasks.models import Tasks
 from utils.responses import DefaultResponse
 
 
-class TaskViewSet(ModelViewSet):
-    queryset = Task.objects.all()
+class TasksViewSet(ModelViewSet):
+    queryset = Tasks.objects.all()
     serializer_class = TasksSerializer
 
     def list(self, request, *args, **kwargs):
