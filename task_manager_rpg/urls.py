@@ -9,10 +9,11 @@ from rest_framework_simplejwt.views import (
 )
 
 # from users.api.viewsets import CustomUserViewSet
+from users.api.viewsets import UserViewSet
 
 router = routers.DefaultRouter()
 router.register(r'tasks',TaskViewSet)
-# router.register(r'users',CustomUserViewSet)
+router.register(r'users',UserViewSet, basename='user')
 
 urlpatterns = [
     path('api/token/', TokenObtainPairView.as_view(),name='token_obtain_pair'),
