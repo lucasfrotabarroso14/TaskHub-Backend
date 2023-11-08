@@ -43,7 +43,8 @@ INSTALLED_APPS = [
     'rest_framework_simplejwt.token_blacklist',
     'equipes',
     'empresas',
-    'users'
+    'account',
+    'user'
 ]
 
 
@@ -83,14 +84,16 @@ WSGI_APPLICATION = "task_manager_rpg.wsgi.application"
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'exampledb',  # Nome do banco de dados
-        'USER': 'docker',  # Usuário do banco de dados
-        'PASSWORD': 'docker',  # Senha do banco de dados
-        'HOST': 'localhost',  # Nome do serviço do Docker Compose para o banco de dados
-        'PORT': '5441',  # Porta padrão do PostgreSQL
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'task_manager_rpg',
+        'USER': 'docker',
+        'PASSWORD': 'docker',
+        'HOST': '127.0.0.1',  # host padrao
+        'PORT': '3307',  # A porta interna do container MySQL
     }
 }
+
+
 
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (

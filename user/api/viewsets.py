@@ -1,20 +1,21 @@
 from rest_framework.response import Response
 from rest_framework.viewsets import ModelViewSet
 
-from equipes.api.serializers import EquipeSerializer
-from equipes.models import Equipe
+from user.api.serializers import UserProfileSerializer
+from user.models import UserProfile
 from utils.responses import DefaultResponse
 
 
-class EquipeViewSet(ModelViewSet):
-    queryset = Equipe.objects.all()
-    serializer_class = EquipeSerializer
+class UserProfileViewSet(ModelViewSet):
+    queryset = UserProfile.objects.all()
+    serializer_class = UserProfileSerializer
 
     def list(self, request, *args, **kwargs):
         try:
             queryset = self.filter_queryset(self.get_queryset())
-            serializer = self.get_serializer(queryset, many = True)
-            response = DefaultResponse(status_code=200,status=True,message="Busca realizada com sucesso", result = serializer.data)
+            serializer = self.get_serializer(queryset, many=True)
+            response = DefaultResponse(status_code=200, status=True, message="Busca realizada com sucesso",
+                                       result=serializer.data)
             return Response(response.to_json())
         except Exception as e:
             response = DefaultResponse(status_code=500, status=False, message="Erro na busca dos dados", result=e)
@@ -25,7 +26,7 @@ class EquipeViewSet(ModelViewSet):
             serializer = self.get_serializer(data=request.data)
             if serializer.is_valid():
                 serializer.save()
-                response = DefaultResponse(status_code=201, status=True, message='Equipe criada com sucesso',
+                response = DefaultResponse(status_code=201, status=True, message='Task criada com sucesso',
                                            result=serializer.data)
                 return Response(response.to_json())
             else:
@@ -33,7 +34,7 @@ class EquipeViewSet(ModelViewSet):
                                            result=serializer.errors)
                 return Response(response.to_json())
         except Exception as e:
-            response = DefaultResponse(status_code=500, status=False, message='Erro na criação da Equipe',
+            response = DefaultResponse(status_code=500, status=False, message='Erro',
                                        result=str(e))
             return Response(response.to_json(), status=500)
 
@@ -43,7 +44,7 @@ class EquipeViewSet(ModelViewSet):
             serializer = self.get_serializer(data, data=request.data)
             if serializer.is_valid():
                 serializer.save()
-                response = DefaultResponse(status_code=201, status=True, message='Equipe atualizada com suceso',
+                response = DefaultResponse(status_code=201, status=True, message=' atualizado com suceso',
                                            result=serializer.data)
                 return Response(response.to_json())
             else:
@@ -68,15 +69,6 @@ class EquipeViewSet(ModelViewSet):
             response = DefaultResponse(status_code=500, status=False, message="Erro na exclusão do objeto",
                                        result=str(e))
             return Response(response.to_json(), status=500)
-
-
-
-
-
-
-
-
-
 
 
 

@@ -1,9 +1,8 @@
 from rest_framework.serializers import ModelSerializer
+from equipes.models import Equipe
 
-from tasks.models import Tasks
 
-
-class TasksSerializer(ModelSerializer):
+class EquipeSerializer(ModelSerializer):
     class Meta:
-        model = Tasks
-        fields = ['id_task','titulo','descricao','data_conclusao']
+        model = Equipe
+        fields = ['id_equipe','nome_equipe']

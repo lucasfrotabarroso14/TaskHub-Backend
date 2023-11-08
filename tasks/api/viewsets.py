@@ -40,8 +40,8 @@ class TaskViewSet(ModelViewSet):
 
     def update(self, request, *args, **kwargs):
         try:
-            instance = self.get_object()
-            serializer = self.get_serializer(instance, data = request.data)
+            data = self.get_object()
+            serializer = self.get_serializer(data, data = request.data)
             if serializer.is_valid():
                 serializer.save()
                 response = DefaultResponse(status_code=201, status=True, message='Task atualizada com suceso',
@@ -59,9 +59,9 @@ class TaskViewSet(ModelViewSet):
 
     def destroy(self, request, *args, **kwargs):
         try:
-            instance = self.get_object()
-            instance.delete()
-            response = DefaultResponse(status_code=201, status=True, message='Task atualizada com suceso',
+            data = self.get_object()
+            data.delete()
+            response = DefaultResponse(status_code=201, status=True, message='Task excluida com suceso',
                                    result=None)
             return Response(response.to_json())
 

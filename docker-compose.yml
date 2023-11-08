@@ -1,19 +1,34 @@
 version: '3'
 services:
-  database:
-    image: postgres:16.0-alpine
+#  database:
+#    image: postgres:16.0-alpine
+#    ports:
+#      - 5441:5432
+#    restart: always
+#    environment:
+#      POSTGRES_USER: docker
+#      POSTGRES_PASSWORD: docker
+#      POSTGRES_DB: exampledb
+
+  db:
+    image: mysql:8.0
     ports:
-      - 5441:5432
+      - 3307:3306
     restart: always
     environment:
-      POSTGRES_USER: docker
-      POSTGRES_PASSWORD: docker
-      POSTGRES_DB: exampledb
+      MYSQL_ROOT_PASSWORD: rootpassword
+      MYSQL_DATABASE: task_manager_rpg
+      MYSQL_USER: docker
+      MYSQL_PASSWORD: docker
+    volumes:
+      - mysql_data:/var/lib/mysql
 
   adminer:
     image: adminer
     restart: always
     depends_on:
-      - database
+      - db
     ports:
       - 8081:8080
+volumes:
+  mysql_data:
