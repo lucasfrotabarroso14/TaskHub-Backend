@@ -1,14 +1,24 @@
+from rest_framework.decorators import action
 from rest_framework.response import Response
 from rest_framework.viewsets import ModelViewSet
 from tasks.api.serializers import TasksSerializer
 from tasks.models import Task
-
 from utils.responses import DefaultResponse
+
+
+
+
+
+
 
 
 class TaskViewSet(ModelViewSet):
     queryset = Task.objects.all()
     serializer_class = TasksSerializer
+
+
+
+
 
     def list(self, request, *args, **kwargs):
         try:
@@ -20,10 +30,52 @@ class TaskViewSet(ModelViewSet):
             response = DefaultResponse(status_code=500,status=False, message="Erro na busca dos dados", result = e)
             return Response(response.to_json())
 
+    @action(detail=False,methods=['get'])
+    def status_count(self, request):
+        try:
+            pendente = 0
+            andamento = 0
+            concluido = 0
+
+            queryset = self.filter_queryset(self.get_queryset())
+            serializer = self.get_serializer(queryset, many=True)
+
+            for task in serializer.data:
+                print(task["status"])
+                if task["status"]=="Pendente":
+                    pendente +=1
+                elif task["status"] == "Em Andamento":
+                    andamento +=1
+                elif task["status"]== "Concluido":
+                    concluido += 1
+
+            status_count = {
+                "Pendente": pendente,
+                "Em Andamento": andamento,
+                "Concluido": concluido
+            }
+            response = DefaultResponse(status_code=200, status=True, message="Busca realizada com sucesso",
+                                       result=status_count)
+            return Response(response.to_json())
+
+
+
+        except Exception as e:
+            response = DefaultResponse(status_code=500, status=False, message="Erro na busca dos dados", result=e)
+            return Response(response.to_json())
+
+
+
+
 
     def create(self, request, *args, **kwargs):
         try:
+            # data = request.data.copy()
+            # data['data_conclusao'] = request.data['data_conclusao'].split('T')[0]
+            print(request.data)
+
             serializer = self.get_serializer(data = request.data)
+
             if serializer.is_valid():
                 serializer.save()
                 response = DefaultResponse(status_code=201, status= True, message = 'Task criada com sucesso',

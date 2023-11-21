@@ -16,6 +16,7 @@ from user.api.viewsets import UserProfileViewSet
 
 router = routers.DefaultRouter()
 router.register(r'tasks',TaskViewSet)
+
 router.register(r'account',AccountViewSet, basename='account')
 router.register(r'teams',EquipeViewSet)
 router.register('user/profile',UserProfileViewSet)
