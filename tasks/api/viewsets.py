@@ -6,12 +6,6 @@ from tasks.models import Task
 from utils.responses import DefaultResponse
 
 
-
-
-
-
-
-
 class TaskViewSet(ModelViewSet):
     queryset = Task.objects.all()
     serializer_class = TasksSerializer
@@ -30,29 +24,69 @@ class TaskViewSet(ModelViewSet):
             response = DefaultResponse(status_code=500,status=False, message="Erro na busca dos dados", result = e)
             return Response(response.to_json())
 
+    @action(detail=False, methods=['get'])
+    def dificuldade_count(self, request):
+        try:
+            facil = 0
+            medio = 0
+            dificil = 0
+            total = 0
+            queryset = self.filter_queryset(self.get_queryset())
+            serializer = self.get_serializer(queryset, many=True)
+            for task in serializer.data:
+                if task["dificuldade"] == 'Facil':
+                    facil += 1
+                    total += 1
+
+                elif task["dificuldade"] == 'Medio':
+                    medio += 1
+                    total += 1
+                elif task["dificuldade"] == 'Dificil':
+                    dificil += 1
+                    total += 1
+            status_count = {
+                "facil": facil,
+                "medio": medio,
+                "dificil": dificil,
+                "total": total
+            }
+            response = DefaultResponse(status_code=200, status=True, message="Busca realizada com sucesso",
+                                       result=status_count)
+            return Response(response.to_json())
+
+        except Exception as e:
+            response = DefaultResponse(status_code=500, status=False, message="Erro na busca dos dados", result=e)
+            return Response(response.to_json())
+
+
     @action(detail=False,methods=['get'])
-    def status_count(self, request):
+    def status_count(self, request): # endpoint /tasks/status_count
         try:
             pendente = 0
             andamento = 0
             concluido = 0
+            total = 0
 
             queryset = self.filter_queryset(self.get_queryset())
             serializer = self.get_serializer(queryset, many=True)
 
             for task in serializer.data:
-                print(task["status"])
+
                 if task["status"]=="Pendente":
                     pendente +=1
+                    total +=1
                 elif task["status"] == "Em Andamento":
                     andamento +=1
+                    total +=1
                 elif task["status"]== "Concluido":
                     concluido += 1
+                    total+=1
 
             status_count = {
-                "Pendente": pendente,
-                "Em Andamento": andamento,
-                "Concluido": concluido
+                "pendente": pendente,
+                "em_andamento": andamento,
+                "concluido": concluido,
+                "total_tasks": total
             }
             response = DefaultResponse(status_code=200, status=True, message="Busca realizada com sucesso",
                                        result=status_count)
