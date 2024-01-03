@@ -1,4 +1,7 @@
-# Backend do Gerenciador de Tarefas para Equipes
+# Backend do Gerenciador de Tarefas TaskHub
+
+![Logo do TaskHub](https://i.imgur.com/DIUSZ1E.jpg?1)
+
 
 ## Visão Geral
 Este projeto é a implementação backend de um sistema de gerenciamento de tarefas para equipes, ideal para gestores ou líderes técnicos que precisam enviar tarefas para integrantes das equipes. Ele inclui um quadro Kanban para uma organização eficiente das tarefas.
